@@ -7,6 +7,7 @@ import de.n1ck145.lobbySystem.utils.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,6 +77,8 @@ public class EventManager implements Listener {
     @EventHandler
     public void givePlayerLobbyCompass(PlayerJoinEvent e) {
         Player p = e.getPlayer();
+        if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getPlayer().getWorld().getName()))
+    		return;
         if (!this.main.getFileManagerCompass().getBoolean("get-on-join"))
             return;
         int slot = this.main.getFileManagerCompass().getInt("slot");
@@ -88,6 +91,8 @@ public class EventManager implements Listener {
         
         if(main.getConfig().getBoolean("clear-players-inv-on-world-change"))
         	p.getInventory().clear();
+        if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getPlayer().getWorld().getName()))
+    		return;
         if(main.getConfig().getStringList("system-enable-worlds").contains(p.getWorld().getName())) {
         	if (!this.main.getFileManagerCompass().getBoolean("get-on-join"))
         		return;
@@ -122,6 +127,8 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void openCompassGui(PlayerInteractEvent e) {
+    	if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getPlayer().getWorld().getName()))
+    		return;
         if (!e.getPlayer().getItemInHand().equals(this.main.getItem_Compass().get()))
             return;
         if (e.getAction() == Action.PHYSICAL)
@@ -132,6 +139,10 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void food(FoodLevelChangeEvent e) {
+    	if(e.getEntityType() != EntityType.PLAYER)
+    		return;
+    	if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getEntity().getWorld().getName()))
+    		return;
         if (this.main.getConfig().getBoolean("change-foodlevel"))
             return;
         if (e.getFoodLevel() < ((Player) e.getEntity()).getFoodLevel())
@@ -140,6 +151,10 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void getDamage(EntityDamageEvent e) {
+    	if(e.getEntityType() != EntityType.PLAYER)
+    		return;
+    	if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getEntity().getWorld().getName()))
+    		return;
         if (this.main.getConfig().getBoolean("player-get-damage"))
             return;
         e.setCancelled(true);
