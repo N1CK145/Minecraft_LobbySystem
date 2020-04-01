@@ -10,7 +10,8 @@ by N1CK145
 * Custom title on join
 * Enable and disable build
 * MySQL connection
-* msg command
+* Message command (Private messages)
+* Warp system
 
 ## Commands
 ### General
