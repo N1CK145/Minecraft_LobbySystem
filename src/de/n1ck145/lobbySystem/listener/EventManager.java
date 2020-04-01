@@ -85,15 +85,21 @@ public class EventManager implements Listener {
     @EventHandler
     public void givePlayerLobbyCompass(PlayerChangedWorldEvent e) {
         Player p = e.getPlayer();
-        if (!this.main.getFileManagerCompass().getBoolean("get-on-join"))
-            return;
-        int slot = this.main.getFileManagerCompass().getInt("slot");
-
-        p.getInventory().setItem(slot, this.main.getItem_Compass().get());
+        
+        if(main.getConfig().getBoolean("clear-players-inv-on-world-change"))
+        	p.getInventory().clear();
+        if(main.getConfig().getStringList("system-enable-worlds").contains(p.getWorld().getName())) {
+        	if (!this.main.getFileManagerCompass().getBoolean("get-on-join"))
+        		return;
+        	int slot = this.main.getFileManagerCompass().getInt("slot");        	
+        	p.getInventory().setItem(slot, this.main.getItem_Compass().get());
+        }
     }
 
     @EventHandler
     public void playerMoveItemInInventory(InventoryClickEvent e) {
+    	if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getWhoClicked().getWorld().getName()))
+    		return;
         if (e.getClickedInventory() == null)
             return;
         if (this.main.getBuildPlayer().contains(e.getClickedInventory().getHolder()))
@@ -105,6 +111,8 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void playerDropItem(PlayerDropItemEvent e) {
+    	if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getPlayer().getWorld().getName()))
+    		return;
         if (this.main.getConfig().getBoolean("can-drop-items"))
             return;
         if (this.main.getBuildPlayer().contains(e.getPlayer()))
@@ -147,9 +155,8 @@ public class EventManager implements Listener {
             if (e.getSlot() == slot) {
                 if (this.compass.getBoolean(String.valueOf(path) + "command-execute-by-player")) {
                     Bukkit.dispatchCommand((CommandSender) e.getWhoClicked(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), (Player) e.getWhoClicked()));
-                } else {
+                } else
                     Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), (Player) e.getWhoClicked()));
-                }
                 return;
             }
         }

@@ -1,11 +1,16 @@
 main: de.n1ck145.lobbySystem.main.Main
-version: 1.0.0
+version: 1.1.0
 name: LobbySystem
 author: N1CK145
 
 commands:
     spawn:
+        description: Teleports you to spawn
         aliases: [l, lobby, hub]
     lobbyc:
+        description: Configure the plugin
     build:
         description: Allows you to build!
+    message:
+        description: 
+        aliases: [msg]

@@ -11,7 +11,7 @@ change-foodlevel: false
 player-get-damage: false
 fakt-signs-header: 'Fakt #'
 change-weather: false
-
+clear-players-inv-on-world-change: true
 MySQL:
     enable: false
     host: 'localhost'

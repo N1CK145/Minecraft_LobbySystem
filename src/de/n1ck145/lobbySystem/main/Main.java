@@ -4,6 +4,7 @@ import de.n1ck145.lobbySystem.GUI.GUI_Compass;
 import de.n1ck145.lobbySystem.MySQL.API_MySQL;
 import de.n1ck145.lobbySystem.commands.CMD_Build;
 import de.n1ck145.lobbySystem.commands.CMD_LobbyC;
+import de.n1ck145.lobbySystem.commands.CMD_Message;
 import de.n1ck145.lobbySystem.commands.CMD_Spawn;
 import de.n1ck145.lobbySystem.items.ITEM_Compass;
 import de.n1ck145.lobbySystem.listener.EventManager;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -69,10 +69,6 @@ extends JavaPlugin {
         if (!API_MySQL.isConnected())
             return;
         API_MySQL.update("CREATE TABLE IF NOT EXISTS lobby_lastOnline(UUID varchar(40) PRIMARY KEY NOT NULL,UserName varchar(30),value TIMESTAMP)ENGINE=InnoDB;");
-
-
-
-
         API_MySQL.update("CREATE TABLE IF NOT EXISTS lobby_coins(UUID varchar(40) PRIMARY KEY NOT NULL,UserName varchar(30),coins DOUBLE)ENGINE=InnoDB;");
     }
 
@@ -81,9 +77,10 @@ extends JavaPlugin {
 
 
     private void registerCommands() {
-        getCommand("build").setExecutor((CommandExecutor) new CMD_Build());
-        getCommand("spawn").setExecutor((CommandExecutor) new CMD_Spawn());
-        getCommand("lobbyc").setExecutor((CommandExecutor) new CMD_LobbyC());
+        getCommand("build").setExecutor(new CMD_Build());
+        getCommand("spawn").setExecutor(new CMD_Spawn());
+        getCommand("lobbyc").setExecutor(new CMD_LobbyC());
+        getCommand("message").setExecutor(new CMD_Message());
     }
 
     private void registerEvents() {
@@ -129,6 +126,9 @@ extends JavaPlugin {
 
         this.messages.addDefault("fakt-signs.find", "%prefix%&6You find a fakt sign!");
         this.messages.addDefault("fakt-signs.create", "%prefix%&aYou created a new fakt sign!");
+        
+        this.messages.addDefault("cmd.message.receive", "&aMessage from %sender%: &r%message%");
+        this.messages.addDefault("cmd.message.send", "&aMessage send to %target%:%break%&r%message%");
 
         this.messages.options().copyDefaults(true);
         this.messages.save();
@@ -200,6 +200,15 @@ extends JavaPlugin {
         msg = color(msg);
         return msg;
     }
+    public String translateVars(String msg, String command, String permission) {
+        msg = msg.replace("%prefix%", getPrefix());
+        msg = msg.replace("%command%", command);
+        msg = msg.replace("%permission%", permission);
+        msg = msg.replace("%break%", "\n");
+        msg = color(msg);
+        return msg;
+    }
+
     public FileManager getLocations() {
         return this.locations;
     }

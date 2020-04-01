@@ -19,11 +19,8 @@ public class CMD_LobbyC implements CommandExecutor {
             Player p = (Player) sender;
             if (p.hasPermission("lobby.cmd.admin")) {
                 if (args.length >= 1) {
-                    String str;
-                    switch ((str = args[0].toLowerCase()).hashCode()) {
-                        case 3198785:
-                            if (!str.equals("help"))
-                                break;
+                    switch (args[0].toLowerCase()) {
+                        case "help":
                             try {
                                 int page = Integer.parseInt(args[1]);
                                 help(p, page);
@@ -31,9 +28,7 @@ public class CMD_LobbyC implements CommandExecutor {
                                 help(p);
                             }
                             return false;
-                        case 1433904217:
-                            if (!str.equals("setspawn"))
-                                break;
+                        case "setspawn":
                             this.locations.setLocation("spawn", p.getLocation());
                             this.locations.save();
                             p.sendMessage(this.main.translateVars(this.messages.getString("spawn.spawn-set"), p, "/lobbyc setspawn", "lobby.cmd.admin"));
@@ -49,9 +44,9 @@ public class CMD_LobbyC implements CommandExecutor {
     }
 
     public void help(Player p) {
-        p.sendMessage(String.valueOf(this.main.getPrefix()) + "§7----------------[ §6HELP §4[1/" + this.lastPage + "]§7]----------------");
-        p.sendMessage(String.valueOf(this.main.getPrefix()) + "§6/lobbyc help <page> §b- shows help");
-        p.sendMessage(String.valueOf(this.main.getPrefix()) + "§6/lobbyc setspawn §b- set the spawn location");
+        p.sendMessage(main.getPrefix() + "§7----------------[ §6HELP §4[1/" + this.lastPage + "]§7]----------------");
+        p.sendMessage(main.getPrefix() + "§6/lobbyc help <page> §b- shows help");
+        p.sendMessage(main.getPrefix() + "§6/lobbyc setspawn §b- set the spawn location");
     }
 
     public void help(Player p, int page) {
@@ -60,6 +55,6 @@ public class CMD_LobbyC implements CommandExecutor {
                 help(p);
                 return;
         }
-        p.sendMessage(String.valueOf(this.main.getPrefix()) + "§cPage §6" + page + " §cnot found!");
+        p.sendMessage(main.getPrefix() + "§cPage §6" + page + " §cnot found!");
     }
 }
