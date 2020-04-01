@@ -27,7 +27,7 @@ by N1CK145
 | /lobbyc  | Configure the Plugin |
 | /lobbyc help [page]   | Shows help |
 | /lobbyc setspawn | Set lobbyspawn to current location |
-| /build [player] | Toggles target build mode |
+| /build [player] | Toggles targets build mode |
 | /setwarp <warp> | Creates new warp or change warps location to players |
 
 ## Permissions
