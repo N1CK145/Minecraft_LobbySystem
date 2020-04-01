@@ -6,6 +6,7 @@
 * Custom join and quit messages
 * Custom title on join
 * Enable and disable build
+* MySQL connection
 
 ## Commands
 ### General
