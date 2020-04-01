@@ -1,4 +1,5 @@
 # Minecraft LobbySystem
+v.1.1.0
 ## Features
 * Lobby compass (Custom commands)
 * Lobby teleport (lobby)
@@ -7,12 +8,14 @@
 * Custom title on join
 * Enable and disable build
 * MySQL connection
+* msg command
 
 ## Commands
 ### General
 | Command | Description | Alias |
 | ------- | ----------- | ----- |
 | /spawn  | Teleport to spawn | /l /lobby /hub |
+| /message <player> <message> | Send private message to Player | /msg |
 
 ### Admin
 | Command | Description |
@@ -26,7 +29,9 @@
 ### General
 | Permission | Description |
 | ---------- | ----------- |
-| lobby.cmd.spawn | Allows to teleport to spawn |
+| lobby.cmd.spawn | Allows to use command /spawn |
+| lobby.cmd.message | Allows to use command /message |
+
 ### Admin
 | Permission | Description |
 | ---------- | ----------- |
