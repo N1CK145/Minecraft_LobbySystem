@@ -1,5 +1,5 @@
 # Minecraft LobbySystem
-v.1.1.0
+v.1.2.0
 
 by N1CK145
 ## Features
