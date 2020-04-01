@@ -10,82 +10,80 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.file.YamlConfigurationOptions;
 
-public class FileManager
-{
-  private File f;
-  private YamlConfiguration conf;
-  
-  public FileManager(String path, String fileName) {
-    this.f = new File(path, fileName);
-    this.conf = YamlConfiguration.loadConfiguration(this.f);
-  }
+public class FileManager {
+    private File f;
+    private YamlConfiguration conf;
 
-  
-  public void save() {
-    try {
-      this.conf.save(this.f);
-    } catch (IOException e) {
-      e.printStackTrace();
-    } 
-  }
+    public FileManager(String path, String fileName) {
+        this.f = new File(path, fileName);
+        this.conf = YamlConfiguration.loadConfiguration(this.f);
+    }
 
-  
-  public void set(String path, Object val) {
-    this.conf.set(path, val);
-  }
+    public void save() {
+        try {
+            this.conf.save(this.f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-  
-  public int getInt(String path) {
-    return this.conf.getInt(path);
-  }
-  public List<Integer> getIntegerList(String path) {
-    return this.conf.getIntegerList(path);
-  }
+    public void set(String path, Object val) {
+        this.conf.set(path, val);
+    }
 
-  
-  public double getDouble(String path) {
-    return this.conf.getDouble(path);
-  }
+    public int getInt(String path) {
+        return this.conf.getInt(path);
+    }
+    public List < Integer > getIntegerList(String path) {
+        return this.conf.getIntegerList(path);
+    }
 
-  
-  public String getString(String path) {
-    return this.conf.getString(path);
-  }
-  public List<String> getStringList(String path) {
-    return this.conf.getStringList(path);
-  }
-  
-  public boolean getBoolean(String path) {
-    return this.conf.getBoolean(path);
-  }
 
-  
-  public void setLocation(String path, Location loc) {
-    this.conf.set(String.valueOf(path) + ".World", loc.getWorld().getName());
-    this.conf.set(String.valueOf(path) + ".X", Double.valueOf(loc.getX()));
-    this.conf.set(String.valueOf(path) + ".Y", Double.valueOf(loc.getY()));
-    this.conf.set(String.valueOf(path) + ".Z", Double.valueOf(loc.getZ()));
-  }
-  public Location getLocation(String path) {
-    World world = Bukkit.getWorld(this.conf.getString(String.valueOf(path) + ".World"));
-    double x = this.conf.getDouble(String.valueOf(path) + ".X");
-    double y = this.conf.getDouble(String.valueOf(path) + ".Y");
-    double z = this.conf.getDouble(String.valueOf(path) + ".Z");
+    public double getDouble(String path) {
+        return this.conf.getDouble(path);
+    }
+
+    public String getString(String path) {
+        return this.conf.getString(path);
+    }
     
-    return new Location(world, x, y, z);
-  }
+    public List < String > getStringList(String path) {
+        return this.conf.getStringList(path);
+    }
 
-  
-  public YamlConfigurationOptions options() {
-    return this.conf.options();
-  }
-  public void addDefault(String path, Object val) {
-    this.conf.addDefault(path, val);
-  }
-  public boolean contains(String path) {
-    return this.conf.contains(path);
-  }
-  public ConfigurationSection getConfigurationSection(String path) {
-    return this.conf.getConfigurationSection(path);
-  }
+    public boolean getBoolean(String path) {
+        return this.conf.getBoolean(path);
+    }
+
+    public void setLocation(String path, Location loc) {
+        this.conf.set(String.valueOf(path) + ".World", loc.getWorld().getName());
+        this.conf.set(String.valueOf(path) + ".X", Double.valueOf(loc.getX()));
+        this.conf.set(String.valueOf(path) + ".Y", Double.valueOf(loc.getY()));
+        this.conf.set(String.valueOf(path) + ".Z", Double.valueOf(loc.getZ()));
+    }
+    
+    public Location getLocation(String path) {
+        World world = Bukkit.getWorld(this.conf.getString(String.valueOf(path) + ".World"));
+        double x = this.conf.getDouble(String.valueOf(path) + ".X");
+        double y = this.conf.getDouble(String.valueOf(path) + ".Y");
+        double z = this.conf.getDouble(String.valueOf(path) + ".Z");
+
+        return new Location(world, x, y, z);
+    }
+
+    public YamlConfigurationOptions options() {
+        return this.conf.options();
+    }
+    
+    public void addDefault(String path, Object val) {
+        this.conf.addDefault(path, val);
+    }
+    
+    public boolean contains(String path) {
+        return this.conf.contains(path);
+    }
+    
+    public ConfigurationSection getConfigurationSection(String path) {
+        return this.conf.getConfigurationSection(path);
+    }
 }
