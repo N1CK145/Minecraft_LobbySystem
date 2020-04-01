@@ -1,5 +1,6 @@
 # Minecraft LobbySystem
 v.1.1.0
+by N1CK145
 ## Features
 * Lobby compass (Custom commands)
 * Lobby teleport (lobby)
