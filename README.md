@@ -9,6 +9,9 @@ Here is a beautiful description of this project.
 | /spawn  | Teleport to spawn | /l /lobby /hub |
 
 ### Admin
+| Command | Description | Alias |
+| ------- | ----------- | ----- |
+| /lobbyc  | Configure the Plugin |  |
 
 ## Permissions
 ### General
