@@ -9,9 +9,12 @@ Here is a beautiful description of this project.
 | /spawn  | Teleport to spawn | /l /lobby /hub |
 
 ### Admin
-| Command | Description | Alias |
-| ------- | ----------- | ----- |
-| /lobbyc  | Configure the Plugin |  |
+| Command | Description |
+| ------- | ----------- |
+| /lobbyc  | Configure the Plugin |
+| /lobbyc help [page]   | Shows help |
+| /lobbyc setspawn | Set lobbyspawn to current location |
+| /build [player] | Toggles target build mode |
 
 ## Permissions
 ### General
