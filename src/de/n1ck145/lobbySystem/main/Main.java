@@ -6,6 +6,7 @@ import de.n1ck145.lobbySystem.commands.CMD_Build;
 import de.n1ck145.lobbySystem.commands.CMD_LobbyC;
 import de.n1ck145.lobbySystem.commands.CMD_Message;
 import de.n1ck145.lobbySystem.commands.CMD_Spawn;
+import de.n1ck145.lobbySystem.commands.CMD_Warp;
 import de.n1ck145.lobbySystem.items.ITEM_Compass;
 import de.n1ck145.lobbySystem.listener.EventManager;
 import de.n1ck145.lobbySystem.utils.FileManager;
@@ -81,6 +82,8 @@ extends JavaPlugin {
         getCommand("spawn").setExecutor(new CMD_Spawn());
         getCommand("lobbyc").setExecutor(new CMD_LobbyC());
         getCommand("message").setExecutor(new CMD_Message());
+        getCommand("warp").setExecutor(new CMD_Warp());
+        getCommand("setwarp").setExecutor(new CMD_Warp());
     }
 
     private void registerEvents() {
@@ -129,6 +132,12 @@ extends JavaPlugin {
         
         this.messages.addDefault("cmd.message.receive", "&aMessage from %sender%: &r%message%");
         this.messages.addDefault("cmd.message.send", "&aMessage send to %target%:%break%&r%message%");
+
+        this.messages.addDefault("cmd.warp.invalid", "%prefix%&cInvalid warp!");
+        this.messages.addDefault("cmd.warp.success", "%prefix%&aTeleporting to %warp%.");
+        
+        this.messages.addDefault("cmd.setwarp.invalid", "%prefix%&cWarp already exists!");
+        this.messages.addDefault("cmd.setwarp.success", "%prefix%&aWarp %warp% saved!");
 
         this.messages.options().copyDefaults(true);
         this.messages.save();
@@ -207,6 +216,12 @@ extends JavaPlugin {
         msg = msg.replace("%break%", "\n");
         msg = color(msg);
         return msg;
+    }
+    public String getErrorMessageNoPermission(Player player) {
+    	return translateVars(messages.getString("error.no-permission"), player);
+    }
+    public String getErrorMessageWrongSyntax(Player player, String cmd, String permission) {
+    	return translateVars(messages.getString("error.incorrect-syntax"), player, cmd, permission);
     }
 
     public FileManager getLocations() {

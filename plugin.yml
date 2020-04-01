@@ -1,5 +1,5 @@
 main: de.n1ck145.lobbySystem.main.Main
-version: 1.1.1
+version: 1.2.0
 name: LobbySystem
 author: N1CK145
 
@@ -14,3 +14,7 @@ commands:
     message:
         description: 
         aliases: [msg]
+    warp:
+        description: warp <warp> Teleports you to warp
+    setwarp:
+        description: setwarp <warp> Creates new warp
