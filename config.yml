@@ -1,0 +1,21 @@
+prefix: '&8[&bLobbySystem&8] &r'
+message-file: 'messages.yml'
+system-enable-worlds:
+- lobby
+- world
+disable-spawn-command-worlds:
+- noLobbyWorld
+can-move-items-in-inventory: false
+can-drop-items: false
+change-foodlevel: false
+player-get-damage: false
+fakt-signs-header: 'Fakt #'
+change-weather: false
+
+MySQL:
+    enable: false
+    host: 'localhost'
+    port: '3306'
+    username: 'root'
+    password: 'root'
+    database: 'minecraft'

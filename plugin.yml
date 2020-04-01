@@ -1,0 +1,11 @@
+main: de.n1ck145.lobbySystem.main.Main
+version: 1.0.0
+name: LobbySystem
+author: N1CK145
+
+commands:
+    spawn:
+        aliases: [l, lobby, hub]
+    lobbyc:
+    build:
+        description: Allows you to build!
