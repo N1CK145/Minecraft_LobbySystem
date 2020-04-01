@@ -1,6 +1,11 @@
 # Minecraft_LobbySystem
-## Description
-Here is a beautiful description of this project.
+## Features
+* Lobby compass (Custom commands)
+* Lobby teleport (lobby)
+* Custom plugin messages (Editable in config)
+* Custom join and quit messages
+* Custom title on join
+* Enable and disable build
 
 ## Commands
 ### General
