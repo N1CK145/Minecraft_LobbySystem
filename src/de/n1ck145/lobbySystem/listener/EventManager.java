@@ -94,7 +94,7 @@ public class EventManager
   public void playerDropItem(PlayerDropItemEvent e) {
     if (this.main.getConfig().getBoolean("can-drop-items"))
       return;  
-if (this.main.getBuildPlayer().contains(e.getPlayer()))
+    if (this.main.getBuildPlayer().contains(e.getPlayer()))
       return;  e.setCancelled(true);
   }
   @EventHandler
