@@ -1,4 +1,4 @@
-# Minecraft_LobbySystem
+# Minecraft LobbySystem
 ## Features
 * Lobby compass (Custom commands)
 * Lobby teleport (lobby)
