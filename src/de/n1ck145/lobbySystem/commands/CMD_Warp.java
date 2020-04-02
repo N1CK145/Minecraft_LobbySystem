@@ -27,15 +27,15 @@ public class CMD_Warp implements CommandExecutor{
 				if(args.length == 1) {
 					try {
 						p.teleport(getWarpLocation(args[0]));
-						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.warp.success"), p).replace("%warp%", args[0]));
+						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.warp.success"), p.getCustomName()).replace("%warp%", args[0]));
 					} catch (Exception e) {
-						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.warp.invalid"), p).replace("%warp%", args[0]));
+						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.warp.invalid"), p.getCustomName()).replace("%warp%", args[0]));
 					}
 										
 				}else
-					p.sendMessage(main.getErrorMessageWrongSyntax(p, "/warp <warp>", permission));
+					p.sendMessage(main.getErrorMessageWrongSyntax(p.getCustomName(), "/warp <warp>", permission));
 			}else
-				sender.sendMessage(main.getErrorMessageNoPermission(p));
+				sender.sendMessage(main.getErrorMessageNoPermission(p.getCustomName()));
 			break;
 			
 		case "setwarp":
@@ -45,14 +45,14 @@ public class CMD_Warp implements CommandExecutor{
 				if(args.length == 1) {
 					try {
 						setWarpLocation(args[0], p.getLocation());
-						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.setwarp.success"), p).replace("%warp%", args[0]));		
+						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.setwarp.success"), p.getCustomName()).replace("%warp%", args[0]));		
 					} catch (Exception e) {
-						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.setwarp.invalid"), p).replace("%warp%", args[0]));
+						p.sendMessage(main.translateVars(main.getMessages().getString("cmd.setwarp.invalid"), p.getCustomName()).replace("%warp%", args[0]));
 					}
 				}else
-					p.sendMessage(main.getErrorMessageWrongSyntax(p, "/warp <warp>", permission));
+					p.sendMessage(main.getErrorMessageWrongSyntax(p.getCustomName(), "/warp <warp>", permission));
 			}else
-				sender.sendMessage(main.getErrorMessageNoPermission(p));
+				sender.sendMessage(main.getErrorMessageNoPermission(p.getCustomName()));
 			break;
 		}
 		return true;

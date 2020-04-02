@@ -34,15 +34,15 @@ public class EventManager implements Listener {
     @EventHandler
     public void joinMessage(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        p.sendTitle(this.main.translateVars(this.messages.getString("join.title"), p), this.main.translateVars(this.messages.getString("join.subtitle"), p));
-        e.setJoinMessage(this.main.translateVars(this.messages.getString("join.public-message"), p));
+        p.sendTitle(this.main.translateVars(this.messages.getString("join.title"), p.getCustomName()), this.main.translateVars(this.messages.getString("join.subtitle"), p.getCustomName()));
+        e.setJoinMessage(this.main.translateVars(this.messages.getString("join.public-message"), p.getCustomName()));
         p.sendMessage(this.main.translateVars(this.messages.getString("join.private-message")));
     }
 
     @EventHandler
     public void quitMessage(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        e.setQuitMessage(this.main.translateVars(this.messages.getString("quit"), p));
+        e.setQuitMessage(this.main.translateVars(this.messages.getString("quit"), p.getCustomName()));
     }
 
     @EventHandler
@@ -53,7 +53,7 @@ public class EventManager implements Listener {
         if (this.main.getBuildPlayer().contains(p))
             return;
         e.setCancelled(true);
-        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p));
+        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p.getCustomName()));
     }
 
     @EventHandler
@@ -64,7 +64,7 @@ public class EventManager implements Listener {
         if (this.main.getBuildPlayer().contains(p))
             return;
         e.setCancelled(true);
-        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p));
+        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p.getCustomName()));
     }
 
     @EventHandler
@@ -169,17 +169,17 @@ public class EventManager implements Listener {
             int slot = this.compass.getInt(String.valueOf(path) + "slot");
             if (e.getSlot() == slot) {
                 if (this.compass.getBoolean(String.valueOf(path) + "command-execute-by-player")) {
-                    Bukkit.dispatchCommand((CommandSender) e.getWhoClicked(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), (Player) e.getWhoClicked()));
+                    Bukkit.dispatchCommand((CommandSender) e.getWhoClicked(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getCustomName()));
                 } else
-                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), (Player) e.getWhoClicked()));
+                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getCustomName()));
                 return;
             }
         }
     }
     @EventHandler
     public void createFaktSign(SignChangeEvent e) {
-        if (this.main.translateVars(e.getLine(0), e.getPlayer()).contains(this.main.getConfig().getString("fakt-signs-header")))
-            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.create"), e.getPlayer()));
+        if (this.main.translateVars(e.getLine(0), e.getPlayer().getCustomName()).contains(this.main.getConfig().getString("fakt-signs-header")))
+            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.create"), e.getPlayer().getCustomName()));
     }
     @EventHandler
     public void faktSignFind(PlayerInteractEvent e) {
@@ -188,8 +188,8 @@ public class EventManager implements Listener {
         if (!(e.getClickedBlock().getState() instanceof Sign))
             return;
         Sign s = (Sign) e.getClickedBlock().getState();
-        if (this.main.translateVars(s.getLine(0), e.getPlayer()).contains(this.main.getConfig().getString("fakt-signs-header")))
-            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.find"), e.getPlayer()));
+        if (this.main.translateVars(s.getLine(0), e.getPlayer().getCustomName()).contains(this.main.getConfig().getString("fakt-signs-header")))
+            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.find"), e.getPlayer().getCustomName()));
     }
 
     @EventHandler

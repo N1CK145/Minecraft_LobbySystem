@@ -24,7 +24,7 @@ public class API_Coins {
             String uuid = p.getUniqueId().toString();
             String name = p.getName();
 
-            API_MySQL.update("INSERT INTO lobby_coins(UUID, UserName, coins)VALUES('" + uuid + "', '" + name + "', 0.0);");
+            API_MySQL.update("INSERT INTO lobby_coins(UUID, UserName, coins) VALUES('" + uuid + "', '" + name + "', 0.0);");
         }
     }
 
@@ -40,10 +40,7 @@ public class API_Coins {
         String uuid = p.getUniqueId().toString();
 
         if (playerExists(p)) {
-            API_MySQL.update("UPDATE lobby_coins SET coins= '" + val + "' WHERE UUID= '" + uuid + "';");
-        } else {
-            createPlayer(p);
-            setCoins(p, val);
+            API_MySQL.update("UPDATE lobby_coins SET coins= '" + val + "' WHERE UUID LIKE '" + uuid + "';");
         }
     }
 
@@ -53,7 +50,7 @@ public class API_Coins {
 
         if (playerExists(p)) {
             try {
-                ResultSet rs = API_MySQL.getResult("SELECT * FROM lobby_coins WHERE UUID= '" + uuid + "';");
+                ResultSet rs = API_MySQL.getResult("SELECT * FROM lobby_coins WHERE UUID LIKE '" + uuid + "';");
                 if (rs.next()) {
                     coins = rs.getDouble("coins");
                 }

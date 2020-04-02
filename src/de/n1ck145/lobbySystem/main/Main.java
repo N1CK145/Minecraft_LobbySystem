@@ -2,11 +2,13 @@ package de.n1ck145.lobbySystem.main;
 
 import de.n1ck145.lobbySystem.GUI.GUI_Compass;
 import de.n1ck145.lobbySystem.MySQL.API_MySQL;
+import de.n1ck145.lobbySystem.coins.API_Coins;
 import de.n1ck145.lobbySystem.commands.CMD_Build;
 import de.n1ck145.lobbySystem.commands.CMD_LobbyC;
 import de.n1ck145.lobbySystem.commands.CMD_Message;
 import de.n1ck145.lobbySystem.commands.CMD_Spawn;
 import de.n1ck145.lobbySystem.commands.CMD_Warp;
+import de.n1ck145.lobbySystem.commands.CMD_Coins;
 import de.n1ck145.lobbySystem.items.ITEM_Compass;
 import de.n1ck145.lobbySystem.listener.EventManager;
 import de.n1ck145.lobbySystem.utils.FileManager;
@@ -69,13 +71,10 @@ extends JavaPlugin {
         API_MySQL.connect();
         if (!API_MySQL.isConnected())
             return;
+        
         API_MySQL.update("CREATE TABLE IF NOT EXISTS lobby_lastOnline(UUID varchar(40) PRIMARY KEY NOT NULL,UserName varchar(30),value TIMESTAMP)ENGINE=InnoDB;");
         API_MySQL.update("CREATE TABLE IF NOT EXISTS lobby_coins(UUID varchar(40) PRIMARY KEY NOT NULL,UserName varchar(30),coins DOUBLE)ENGINE=InnoDB;");
     }
-
-
-
-
 
     private void registerCommands() {
         getCommand("build").setExecutor(new CMD_Build());
@@ -84,6 +83,7 @@ extends JavaPlugin {
         getCommand("message").setExecutor(new CMD_Message());
         getCommand("warp").setExecutor(new CMD_Warp());
         getCommand("setwarp").setExecutor(new CMD_Warp());
+        getCommand("coins").setExecutor(new CMD_Coins());
     }
 
     private void registerEvents() {
@@ -110,6 +110,7 @@ extends JavaPlugin {
         this.messages.addDefault("error.player-not-found", "%prefix%&6%target% &cnot found!");
         this.messages.addDefault("error.lobby-command-disabled", "%prefix%&cThis command is disabled in this world!");
         this.messages.addDefault("error.spawn-not-set", "%prefix%&cThe spawn wasn't set yet!");
+        this.messages.addDefault("error.can-not-cast-number", "%prefix%&6%input% is not a valid number!");
 
 
         this.messages.addDefault("join.title", "&aWelcome &6%player%");
@@ -132,12 +133,13 @@ extends JavaPlugin {
         
         this.messages.addDefault("cmd.message.receive", "&aMessage from %sender%: &r%message%");
         this.messages.addDefault("cmd.message.send", "&aMessage send to %target%:%break%&r%message%");
-
         this.messages.addDefault("cmd.warp.invalid", "%prefix%&cInvalid warp!");
         this.messages.addDefault("cmd.warp.success", "%prefix%&aTeleporting to %warp%.");
-        
         this.messages.addDefault("cmd.setwarp.invalid", "%prefix%&cWarp already exists!");
         this.messages.addDefault("cmd.setwarp.success", "%prefix%&aWarp %warp% saved!");
+        this.messages.addDefault("cmd.coins.get-coins", "%prefix%&aYou balance is: %coins%");
+        this.messages.addDefault("cmd.coins.get-coins-other", "%prefix%&aBalance of %target% is: %coins%");
+        this.messages.addDefault("cmd.coins.set", "%prefix%&aSet balance of %target% to &6%coins%");
 
         this.messages.options().copyDefaults(true);
         this.messages.save();
@@ -163,14 +165,13 @@ extends JavaPlugin {
         }
         temp.clear();
         temp.add("DURABILITY:1");
-        this.fm_compass.addDefault("compass.enchantments", new ArrayList < > (temp));
+        this.fm_compass.addDefault("compass.enchantments", new ArrayList <> (temp));
         this.fm_compass.save();
 
 
         this.prefix = getConfig().getString("prefix");
         this.prefix = color(this.prefix);
     }
-
 
     public static Main getMain() {
         return main;
@@ -193,15 +194,15 @@ extends JavaPlugin {
         msg = color(msg);
         return msg;
     }
-    public String translateVars(String msg, Player player) {
-        msg = msg.replace("%player%", player.getName());
+    public String translateVars(String msg, String player) {
+        msg = msg.replace("%player%", player);
         msg = msg.replace("%prefix%", getPrefix());
         msg = msg.replace("%break%", "\n");
         msg = color(msg);
         return msg;
     }
-    public String translateVars(String msg, Player player, String command, String permission) {
-        msg = msg.replace("%player%", player.getName());
+    public String translateVars(String msg, String player, String command, String permission) {
+        msg = msg.replace("%player%", player);
         msg = msg.replace("%prefix%", getPrefix());
         msg = msg.replace("%command%", command);
         msg = msg.replace("%permission%", permission);
@@ -217,20 +218,35 @@ extends JavaPlugin {
         msg = color(msg);
         return msg;
     }
-    public String getErrorMessageNoPermission(Player player) {
+    public String getErrorMessagePlayerNotFount(String executor, String target) {
+    	return translateVars(messages.getString("error.player-not-found"), executor).replace("%target%", target);
+    }
+    public String getErrorMessageNoPermission(String player) {
     	return translateVars(messages.getString("error.no-permission"), player);
     }
-    public String getErrorMessageWrongSyntax(Player player, String cmd, String permission) {
+    public String getErrorMessageWrongSyntax(String player, String cmd, String permission) {
     	return translateVars(messages.getString("error.incorrect-syntax"), player, cmd, permission);
     }
-
+    public String getErrorMessageCanNotCastNumber(String executor, String input) {
+    	return translateVars(messages.getString("error.can-not-cast-number"), executor).replace("%input%", input);
+    }
+    public String getCoinMessage(Player p) {
+    	return translateVars(messages.getString("cmd.coins.get-coins")).replace("%coins%", API_Coins.getCoins(p) + "");
+    }
+    public String getCoinMessageOthers(Player target) {
+    	return translateVars(messages.getString("cmd.coins.get-coins-other")).replace("%coins%", API_Coins.getCoins(target) + "").replace("%target%", target.getName());
+    }
+    public String getCoinMessageSetCoins(Player target) {
+    	return translateVars(messages.getString("cmd.coins.set")).replace("%target%", target.getCustomName()).replace("%coins%", API_Coins.getCoins(target)+ "");
+    }
+    
     public FileManager getLocations() {
         return this.locations;
     }
     public FileManager getMessages() {
         return this.messages;
     }
-    public ArrayList < Player > getBuildPlayer() {
+    public ArrayList <Player> getBuildPlayer() {
         return this.buildPlayer;
     }
     public ITEM_Compass getItem_Compass() {

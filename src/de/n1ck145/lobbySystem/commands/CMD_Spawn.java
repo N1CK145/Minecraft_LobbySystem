@@ -16,13 +16,13 @@ public class CMD_Spawn implements CommandExecutor {
                 if (p.hasPermission("lobby.cmd.spawn")) {
                     if (this.main.getLocations().contains("spawn")) {
                         p.teleport(this.main.getLocations().getLocation("spawn"));
-                        p.sendMessage(this.main.translateVars(this.main.getMessages().getString("spawn.telport-to-spawn"), p, "/spawn", "lobby.cmd.spawn"));
+                        p.sendMessage(this.main.translateVars(this.main.getMessages().getString("spawn.telport-to-spawn"), p.getCustomName(), "/spawn", "lobby.cmd.spawn"));
                     } else
-                        p.sendMessage(this.main.translateVars(this.main.getMessages().getString("error.spawn-not-set"), p, "/spawn", "lobby.cmd.spawn"));
+                        p.sendMessage(this.main.translateVars(this.main.getMessages().getString("error.spawn-not-set"), p.getCustomName(), "/spawn", "lobby.cmd.spawn"));
                 } else
-                    p.sendMessage(this.main.translateVars(this.main.getMessages().getString("error.no-permission"), p, "/spawn", "lobby.cmd.spawn"));
+                    p.sendMessage(this.main.translateVars(this.main.getMessages().getString("error.no-permission"), p.getCustomName(), "/spawn", "lobby.cmd.spawn"));
             } else
-                p.sendMessage(this.main.translateVars(this.main.getMessages().getString("error.lobby-command-disabled"), p, "/spawn", "lobby.cmd.spawn"));
+                p.sendMessage(this.main.translateVars(this.main.getMessages().getString("error.lobby-command-disabled"), p.getCustomName(), "/spawn", "lobby.cmd.spawn"));
         }
         return false;
     }

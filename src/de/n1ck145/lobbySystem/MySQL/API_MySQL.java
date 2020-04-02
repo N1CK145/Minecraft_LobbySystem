@@ -43,6 +43,7 @@ public class API_MySQL {
     
     public static void update(String querry) {
         try {
+        	
             PreparedStatement ps = con.prepareStatement(querry);
             ps.executeUpdate();
         } catch (SQLException e) {

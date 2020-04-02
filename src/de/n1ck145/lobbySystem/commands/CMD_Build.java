@@ -20,11 +20,12 @@ public class CMD_Build implements CommandExecutor {
                     if (main.getBuildPlayer().contains(p)) {
                         main.getBuildPlayer().remove(p);
                         p.sendMessage(main.translateVars(this.messages.getString("build-mode.disable")));
-                    } else
-                        main.getBuildPlayer().add(p);
-                    p.sendMessage(main.translateVars(this.messages.getString("build-mode.enable")));
+                    } else {
+                    	main.getBuildPlayer().add(p);
+                    	p.sendMessage(main.translateVars(this.messages.getString("build-mode.enable")));
+                    }
                 } else
-                    p.sendMessage(main.translateVars(this.messages.getString("error.no-permission"), p, "/build", "lobby.cmd.build"));
+                    p.sendMessage(main.translateVars(this.messages.getString("error.no-permission"), p.getCustomName(), "/build", "lobby.cmd.build"));
             } else if (args.length == 1) {
                 if (p.hasPermission("lobby.cmd.build.other")) {
                     if (Bukkit.getPlayerExact(args[0]) != null) {
@@ -32,18 +33,18 @@ public class CMD_Build implements CommandExecutor {
                         if (main.getBuildPlayer().contains(target)) {
                             main.getBuildPlayer().remove(target);
                             target.sendMessage(main.translateVars(this.messages.getString("build-mode.disable")));
-                            p.sendMessage(main.translateVars(this.messages.getString("build-mode.other.disable"), p, "/build [player]", "lobby.cmd.build.other").replace("%target%", target.getName()));
+                            p.sendMessage(main.translateVars(this.messages.getString("build-mode.other.disable"), p.getCustomName(), "/build [player]", "lobby.cmd.build.other").replace("%target%", target.getName()));
                         } else {
                             main.getBuildPlayer().add(target);
                             target.sendMessage(main.translateVars(this.messages.getString("build-mode.enable")));
-                            p.sendMessage(main.translateVars(this.messages.getString("build-mode.other.enable"), p, "/build [player]", "lobby.cmd.build.other").replace("%target%", target.getName()));
+                            p.sendMessage(main.translateVars(this.messages.getString("build-mode.other.enable"), p.getCustomName(), "/build [player]", "lobby.cmd.build.other").replace("%target%", target.getName()));
                         }
                     } else
-                        p.sendMessage(main.translateVars(this.messages.getString("error.player-not-found"), p, "/build [player]", "lobby.cmd.build.other").replace("%target%", args[0]));
+                        p.sendMessage(main.translateVars(this.messages.getString("error.player-not-found"), p.getCustomName(), "/build [player]", "lobby.cmd.build.other").replace("%target%", args[0]));
                 } else
-                    p.sendMessage(main.translateVars(this.messages.getString("error.no-permission"), p, "/build [player]", "lobby.cmd.build.other"));
+                    p.sendMessage(main.translateVars(this.messages.getString("error.no-permission"), p.getCustomName(), "/build [player]", "lobby.cmd.build.other"));
             } else
-                p.sendMessage(main.translateVars(this.messages.getString("error.incorrect-syntax"), p, "/build [player]", "NULL"));
+                p.sendMessage(main.translateVars(this.messages.getString("error.incorrect-syntax"), p.getCustomName(), "/build [player]", "NULL"));
         }
         return false;
     }
