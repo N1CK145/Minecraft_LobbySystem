@@ -1,9 +1,5 @@
 package de.n1ck145.lobbySystem.listener;
 
-import de.n1ck145.lobbySystem.GUI.GUI_Compass;
-import de.n1ck145.lobbySystem.MySQL.API_MySQL;
-import de.n1ck145.lobbySystem.main.Main;
-import de.n1ck145.lobbySystem.utils.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -26,6 +22,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.Inventory;
 
+import de.n1ck145.lobbySystem.GUI.GUI_Compass;
+import de.n1ck145.lobbySystem.MySQL.API_MySQL;
+import de.n1ck145.lobbySystem.main.Main;
+import de.n1ck145.lobbySystem.utils.FileManager;
+
 public class EventManager implements Listener {
     private Main main = Main.getMain();
     private FileManager messages = this.main.getMessages();
@@ -34,15 +35,15 @@ public class EventManager implements Listener {
     @EventHandler
     public void joinMessage(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        p.sendTitle(this.main.translateVars(this.messages.getString("join.title"), p.getCustomName()), this.main.translateVars(this.messages.getString("join.subtitle"), p.getCustomName()));
-        e.setJoinMessage(this.main.translateVars(this.messages.getString("join.public-message"), p.getCustomName()));
+        p.sendTitle(this.main.translateVars(this.messages.getString("join.title"), p.getName()), this.main.translateVars(this.messages.getString("join.subtitle"), p.getName()));
+        e.setJoinMessage(this.main.translateVars(this.messages.getString("join.public-message"), p.getName()));
         p.sendMessage(this.main.translateVars(this.messages.getString("join.private-message")));
     }
 
     @EventHandler
     public void quitMessage(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        e.setQuitMessage(this.main.translateVars(this.messages.getString("quit"), p.getCustomName()));
+        e.setQuitMessage(this.main.translateVars(this.messages.getString("quit"), p.getName()));
     }
 
     @EventHandler
@@ -53,7 +54,7 @@ public class EventManager implements Listener {
         if (this.main.getBuildPlayer().contains(p))
             return;
         e.setCancelled(true);
-        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p.getCustomName()));
+        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p.getName()));
     }
 
     @EventHandler
@@ -64,7 +65,7 @@ public class EventManager implements Listener {
         if (this.main.getBuildPlayer().contains(p))
             return;
         e.setCancelled(true);
-        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p.getCustomName()));
+        p.sendMessage(this.main.translateVars(this.messages.getString("error.destroy-lobby"), p.getName()));
     }
 
     @EventHandler
@@ -169,17 +170,17 @@ public class EventManager implements Listener {
             int slot = this.compass.getInt(String.valueOf(path) + "slot");
             if (e.getSlot() == slot) {
                 if (this.compass.getBoolean(String.valueOf(path) + "command-execute-by-player")) {
-                    Bukkit.dispatchCommand((CommandSender) e.getWhoClicked(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getCustomName()));
+                    Bukkit.dispatchCommand((CommandSender) e.getWhoClicked(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getName()));
                 } else
-                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getCustomName()));
+                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getName()));
                 return;
             }
         }
     }
     @EventHandler
     public void createFaktSign(SignChangeEvent e) {
-        if (this.main.translateVars(e.getLine(0), e.getPlayer().getCustomName()).contains(this.main.getConfig().getString("fakt-signs-header")))
-            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.create"), e.getPlayer().getCustomName()));
+        if (this.main.translateVars(e.getLine(0), e.getPlayer().getName()).contains(this.main.getConfig().getString("fakt-signs-header")))
+            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.create"), e.getPlayer().getName()));
     }
     @EventHandler
     public void faktSignFind(PlayerInteractEvent e) {
@@ -188,8 +189,8 @@ public class EventManager implements Listener {
         if (!(e.getClickedBlock().getState() instanceof Sign))
             return;
         Sign s = (Sign) e.getClickedBlock().getState();
-        if (this.main.translateVars(s.getLine(0), e.getPlayer().getCustomName()).contains(this.main.getConfig().getString("fakt-signs-header")))
-            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.find"), e.getPlayer().getCustomName()));
+        if (this.main.translateVars(s.getLine(0), e.getPlayer().getName()).contains(this.main.getConfig().getString("fakt-signs-header")))
+            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.find"), e.getPlayer().getName()));
     }
 
     @EventHandler

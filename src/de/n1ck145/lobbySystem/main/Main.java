@@ -1,18 +1,7 @@
 package de.n1ck145.lobbySystem.main;
 
-import de.n1ck145.lobbySystem.GUI.GUI_Compass;
-import de.n1ck145.lobbySystem.MySQL.API_MySQL;
-import de.n1ck145.lobbySystem.coins.API_Coins;
-import de.n1ck145.lobbySystem.commands.CMD_Build;
-import de.n1ck145.lobbySystem.commands.CMD_LobbyC;
-import de.n1ck145.lobbySystem.commands.CMD_Message;
-import de.n1ck145.lobbySystem.commands.CMD_Spawn;
-import de.n1ck145.lobbySystem.commands.CMD_Warp;
-import de.n1ck145.lobbySystem.commands.CMD_Coins;
-import de.n1ck145.lobbySystem.items.ITEM_Compass;
-import de.n1ck145.lobbySystem.listener.EventManager;
-import de.n1ck145.lobbySystem.utils.FileManager;
 import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,6 +11,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import de.n1ck145.lobbySystem.GUI.GUI_Compass;
+import de.n1ck145.lobbySystem.MySQL.API_MySQL;
+import de.n1ck145.lobbySystem.coins.API_Coins;
+import de.n1ck145.lobbySystem.commands.CMD_Build;
+import de.n1ck145.lobbySystem.commands.CMD_Coins;
+import de.n1ck145.lobbySystem.commands.CMD_LobbyC;
+import de.n1ck145.lobbySystem.commands.CMD_Message;
+import de.n1ck145.lobbySystem.commands.CMD_Spawn;
+import de.n1ck145.lobbySystem.commands.CMD_Warp;
+import de.n1ck145.lobbySystem.items.ITEM_Compass;
+import de.n1ck145.lobbySystem.listener.EventManager;
+import de.n1ck145.lobbySystem.utils.FileManager;
 
 
 
@@ -237,7 +239,7 @@ extends JavaPlugin {
     	return translateVars(messages.getString("cmd.coins.get-coins-other")).replace("%coins%", API_Coins.getCoins(target) + "").replace("%target%", target.getName());
     }
     public String getCoinMessageSetCoins(Player target) {
-    	return translateVars(messages.getString("cmd.coins.set")).replace("%target%", target.getCustomName()).replace("%coins%", API_Coins.getCoins(target)+ "");
+    	return translateVars(messages.getString("cmd.coins.set")).replace("%target%", target.getName()).replace("%coins%", API_Coins.getCoins(target)+ "");
     }
     
     public FileManager getLocations() {

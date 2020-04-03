@@ -38,7 +38,6 @@ public class FileManager {
         return this.conf.getIntegerList(path);
     }
 
-
     public double getDouble(String path) {
         return this.conf.getDouble(path);
     }
@@ -55,18 +54,28 @@ public class FileManager {
         return this.conf.getBoolean(path);
     }
 
-    public void setLocation(String path, Location loc) {
-        this.conf.set(String.valueOf(path) + ".World", loc.getWorld().getName());
-        this.conf.set(String.valueOf(path) + ".X", Double.valueOf(loc.getX()));
-        this.conf.set(String.valueOf(path) + ".Y", Double.valueOf(loc.getY()));
-        this.conf.set(String.valueOf(path) + ".Z", Double.valueOf(loc.getZ()));
+    public void setLocation(String path, Location loc, boolean direction) {
+        this.conf.set(path + ".World", loc.getWorld().getName());
+        this.conf.set(path + ".X", loc.getX());
+        this.conf.set(path + ".Y", loc.getY());
+        this.conf.set(path + ".Z", loc.getZ());
+        if(direction) {
+        	this.conf.set(path + ".Yaw", loc.getYaw());
+        	this.conf.set(path + ".Pitch", loc.getPitch());
+        }
     }
     
     public Location getLocation(String path) {
         World world = Bukkit.getWorld(this.conf.getString(String.valueOf(path) + ".World"));
-        double x = this.conf.getDouble(String.valueOf(path) + ".X");
-        double y = this.conf.getDouble(String.valueOf(path) + ".Y");
-        double z = this.conf.getDouble(String.valueOf(path) + ".Z");
+        double x = this.conf.getDouble(path + ".X");
+        double y = this.conf.getDouble(path + ".Y");
+        double z = this.conf.getDouble(path + ".Z");
+        
+        try {
+        	float yaw = (float) this.conf.getDouble(path + ".Yaw");
+        	float pitch = (float) this.conf.getDouble(path + ".Pitch");
+        	return new Location(world, x, y, z, yaw, pitch);
+        } catch (Exception e) {}
 
         return new Location(world, x, y, z);
     }

@@ -29,16 +29,16 @@ public class CMD_LobbyC implements CommandExecutor {
                             }
                             return false;
                         case "setspawn":
-                            this.locations.setLocation("spawn", p.getLocation());
+                            this.locations.setLocation("spawn", p.getLocation(), true);
                             this.locations.save();
-                            p.sendMessage(this.main.translateVars(this.messages.getString("spawn.spawn-set"), p.getCustomName(), "/lobbyc setspawn", "lobby.cmd.admin"));
+                            p.sendMessage(this.main.translateVars(this.messages.getString("spawn.spawn-set"), p.getName(), "/lobbyc setspawn", "lobby.cmd.admin"));
                             return false;
                     }
                     help(p);
                 } else
-                    p.sendMessage(this.main.translateVars(this.messages.getString("error.incorrect-syntax"), p.getCustomName(), "/lobbyc", "lobby.cmd.admin"));
+                    p.sendMessage(this.main.translateVars(this.messages.getString("error.incorrect-syntax"), p.getName(), "/lobbyc", "lobby.cmd.admin"));
             } else
-                p.sendMessage(this.main.translateVars(this.messages.getString("error.no-permission"), p.getCustomName(), "/lobbyc", "lobby.cmd.admin"));
+                p.sendMessage(this.main.translateVars(this.messages.getString("error.no-permission"), p.getName(), "/lobbyc", "lobby.cmd.admin"));
         }
         return false;
     }
