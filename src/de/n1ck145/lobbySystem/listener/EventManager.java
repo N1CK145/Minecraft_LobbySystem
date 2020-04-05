@@ -23,8 +23,8 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.Inventory;
 
 import de.n1ck145.lobbySystem.GUI.GUI_Compass;
-import de.n1ck145.lobbySystem.MySQL.API_MySQL;
 import de.n1ck145.lobbySystem.main.Main;
+import de.n1ck145.lobbySystem.utils.API_MySQL;
 import de.n1ck145.lobbySystem.utils.FileManager;
 
 public class EventManager implements Listener {

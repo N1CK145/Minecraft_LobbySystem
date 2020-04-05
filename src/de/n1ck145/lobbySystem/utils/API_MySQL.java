@@ -1,4 +1,4 @@
-package de.n1ck145.lobbySystem.MySQL;
+package de.n1ck145.lobbySystem.utils;
 
 import de.n1ck145.lobbySystem.main.Main;
 import java.sql.Connection;

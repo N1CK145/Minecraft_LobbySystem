@@ -13,19 +13,15 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.n1ck145.lobbySystem.GUI.GUI_Compass;
-import de.n1ck145.lobbySystem.MySQL.API_MySQL;
-import de.n1ck145.lobbySystem.coins.API_Coins;
 import de.n1ck145.lobbySystem.commands.CMD_Build;
-import de.n1ck145.lobbySystem.commands.CMD_Coins;
 import de.n1ck145.lobbySystem.commands.CMD_LobbyC;
 import de.n1ck145.lobbySystem.commands.CMD_Message;
 import de.n1ck145.lobbySystem.commands.CMD_Spawn;
 import de.n1ck145.lobbySystem.commands.CMD_Warp;
 import de.n1ck145.lobbySystem.items.ITEM_Compass;
 import de.n1ck145.lobbySystem.listener.EventManager;
+import de.n1ck145.lobbySystem.utils.API_MySQL;
 import de.n1ck145.lobbySystem.utils.FileManager;
-
-
 
 public class Main
 extends JavaPlugin {
@@ -52,7 +48,8 @@ extends JavaPlugin {
         this.gui_compass = new GUI_Compass();
 
         if (getConfig().getBoolean("MySQL.enable")) {
-            mySQLSetup();
+        	// Currently no funktion for MySQL
+            // mySQLSetup();
         }
 
         this.console.sendMessage("§8[§b" + getName() + "§8] §aPlugin ready!");
@@ -73,9 +70,6 @@ extends JavaPlugin {
         API_MySQL.connect();
         if (!API_MySQL.isConnected())
             return;
-        
-        API_MySQL.update("CREATE TABLE IF NOT EXISTS lobby_lastOnline(UUID varchar(40) PRIMARY KEY NOT NULL,UserName varchar(30),value TIMESTAMP)ENGINE=InnoDB;");
-        API_MySQL.update("CREATE TABLE IF NOT EXISTS lobby_coins(UUID varchar(40) PRIMARY KEY NOT NULL,UserName varchar(30),coins DOUBLE)ENGINE=InnoDB;");
     }
 
     private void registerCommands() {
@@ -85,7 +79,6 @@ extends JavaPlugin {
         getCommand("message").setExecutor(new CMD_Message());
         getCommand("warp").setExecutor(new CMD_Warp());
         getCommand("setwarp").setExecutor(new CMD_Warp());
-        getCommand("coins").setExecutor(new CMD_Coins());
     }
 
     private void registerEvents() {
@@ -139,9 +132,6 @@ extends JavaPlugin {
         this.messages.addDefault("cmd.warp.success", "%prefix%&aTeleporting to %warp%.");
         this.messages.addDefault("cmd.setwarp.invalid", "%prefix%&cWarp already exists!");
         this.messages.addDefault("cmd.setwarp.success", "%prefix%&aWarp %warp% saved!");
-        this.messages.addDefault("cmd.coins.get-coins", "%prefix%&aYou balance is: %coins%");
-        this.messages.addDefault("cmd.coins.get-coins-other", "%prefix%&aBalance of %target% is: %coins%");
-        this.messages.addDefault("cmd.coins.set", "%prefix%&aSet balance of %target% to &6%coins%");
 
         this.messages.options().copyDefaults(true);
         this.messages.save();
@@ -231,15 +221,6 @@ extends JavaPlugin {
     }
     public String getErrorMessageCanNotCastNumber(String executor, String input) {
     	return translateVars(messages.getString("error.can-not-cast-number"), executor).replace("%input%", input);
-    }
-    public String getCoinMessage(Player p) {
-    	return translateVars(messages.getString("cmd.coins.get-coins")).replace("%coins%", API_Coins.getCoins(p) + "");
-    }
-    public String getCoinMessageOthers(Player target) {
-    	return translateVars(messages.getString("cmd.coins.get-coins-other")).replace("%coins%", API_Coins.getCoins(target) + "").replace("%target%", target.getName());
-    }
-    public String getCoinMessageSetCoins(Player target) {
-    	return translateVars(messages.getString("cmd.coins.set")).replace("%target%", target.getName()).replace("%coins%", API_Coins.getCoins(target)+ "");
     }
     
     public FileManager getLocations() {
