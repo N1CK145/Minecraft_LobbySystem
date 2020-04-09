@@ -18,7 +18,7 @@ by N1CK145
 | Command | Description | Alias |
 | ------- | ----------- | ----- |
 | /spawn  | Teleport to spawn | /l /lobby /hub |
-| /message <player> <message> | Send private message to Player | /msg |
+| <p>/message <player> <message></p> | Send private message to Player | /msg |
 | /warp <warp> | Teleport to warp |  |
 
 ### Admin
