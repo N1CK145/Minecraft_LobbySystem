@@ -16,7 +16,7 @@ public class CMD_Build implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 0) {
-                if (p.hasPermission("lobby.cmd.build")) {
+                if (p.hasPermission("lobbySystem.cmd.build")) {
                     if (main.getBuildPlayer().contains(p)) {
                         main.getBuildPlayer().remove(p);
                         p.sendMessage(main.translateVars(this.messages.getString("build-mode.disable")));
@@ -27,7 +27,7 @@ public class CMD_Build implements CommandExecutor {
                 } else
                     p.sendMessage(main.translateVars(this.messages.getString("error.no-permission"), p.getName(), "/build", "lobby.cmd.build"));
             } else if (args.length == 1) {
-                if (p.hasPermission("lobby.cmd.build.other")) {
+                if (p.hasPermission("lobbySystem.cmd.build.other")) {
                     if (Bukkit.getPlayerExact(args[0]) != null) {
                         Player target = Bukkit.getPlayerExact(args[0]);
                         if (main.getBuildPlayer().contains(target)) {

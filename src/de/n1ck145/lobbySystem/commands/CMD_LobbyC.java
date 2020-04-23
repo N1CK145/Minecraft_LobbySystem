@@ -1,11 +1,12 @@
 package de.n1ck145.lobbySystem.commands;
 
-import de.n1ck145.lobbySystem.main.Main;
-import de.n1ck145.lobbySystem.utils.FileManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import de.n1ck145.lobbySystem.main.Main;
+import de.n1ck145.lobbySystem.utils.FileManager;
 
 public class CMD_LobbyC implements CommandExecutor {
     private Main main = Main.getMain();
@@ -17,15 +18,15 @@ public class CMD_LobbyC implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            if (p.hasPermission("lobby.cmd.admin")) {
+            if (p.hasPermission("lobbySystem.cmd.admin")) {
                 if (args.length >= 1) {
                     switch (args[0].toLowerCase()) {
                         case "help":
                             try {
                                 int page = Integer.parseInt(args[1]);
-                                help(p, page);
+                                showHelp(p, page);
                             } catch (Exception e) {
-                                help(p);
+                            	showHelp(p, 1);
                             }
                             return false;
                         case "setspawn":
@@ -34,7 +35,7 @@ public class CMD_LobbyC implements CommandExecutor {
                             p.sendMessage(this.main.translateVars(this.messages.getString("spawn.spawn-set"), p.getName(), "/lobbyc setspawn", "lobby.cmd.admin"));
                             return false;
                     }
-                    help(p);
+                    showHelp(p, 1);
                 } else
                     p.sendMessage(this.main.translateVars(this.messages.getString("error.incorrect-syntax"), p.getName(), "/lobbyc", "lobby.cmd.admin"));
             } else
@@ -43,16 +44,15 @@ public class CMD_LobbyC implements CommandExecutor {
         return false;
     }
 
-    public void help(Player p) {
-        p.sendMessage(main.getPrefix() + "§7----------------[ §6HELP §4[1/" + this.lastPage + "]§7]----------------");
-        p.sendMessage(main.getPrefix() + "§6/lobbyc help <page> §b- shows help");
-        p.sendMessage(main.getPrefix() + "§6/lobbyc setspawn §b- set the spawn location");
-    }
-
-    public void help(Player p, int page) {
+    public void showHelp(Player p, int page) {
         switch (page) {
             case 1:
-                help(p);
+            	p.sendMessage(main.getPrefix() + "§7----------------[ §6HELP §4[1/" + this.lastPage + "]§7]----------------");
+                p.sendMessage(main.getPrefix() + "§6/lobbyc help <page> §b- shows help");
+                p.sendMessage(main.getPrefix() + "§6/lobbyc setspawn §b- set the spawn location");
+                p.sendMessage(main.getPrefix() + "§6/build [player] §b- allows you or the target player to build");
+                p.sendMessage(main.getPrefix() + "§6/warp <warp> §b- teleport you to warp");
+                p.sendMessage(main.getPrefix() + "§6/setwarp <warp> §b- Creates new warp or change warps location to players");
                 return;
         }
         p.sendMessage(main.getPrefix() + "§cPage §6" + page + " §cnot found!");

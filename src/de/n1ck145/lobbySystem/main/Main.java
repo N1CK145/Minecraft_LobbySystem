@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.n1ck145.lobbySystem.GUI.GUI_Compass;
@@ -22,6 +23,7 @@ import de.n1ck145.lobbySystem.items.ITEM_Compass;
 import de.n1ck145.lobbySystem.listener.EventManager;
 import de.n1ck145.lobbySystem.utils.API_MySQL;
 import de.n1ck145.lobbySystem.utils.FileManager;
+import net.milkbowl.vault.economy.Economy;
 
 public class Main
 extends JavaPlugin {
@@ -34,6 +36,7 @@ extends JavaPlugin {
     private ArrayList < Player > buildPlayer;
     private ITEM_Compass item_compass;
     private GUI_Compass gui_compass;
+    private static Economy econ;
 
     public void onEnable() {
         main = this;
@@ -43,14 +46,11 @@ extends JavaPlugin {
         registerConfig();
         registerEvents();
         registerCommands();
+        if(!setupEconomy())
+        	console.sendMessage(prefix + "§cNo valid economy plugin found! Please import a Vault compatible economy plugin!");
 
         this.item_compass = new ITEM_Compass(Material.getMaterial(this.fm_compass.getString("compass.material")));
         this.gui_compass = new GUI_Compass();
-
-        if (getConfig().getBoolean("MySQL.enable")) {
-        	// Currently no funktion for MySQL
-            // mySQLSetup();
-        }
 
         this.console.sendMessage("§8[§b" + getName() + "§8] §aPlugin ready!");
     }
@@ -58,18 +58,6 @@ extends JavaPlugin {
 
     public void onDisable() {
         API_MySQL.disconnect();
-    }
-
-    private void mySQLSetup() {
-        API_MySQL.host = getConfig().getString("MySQL.host");
-        API_MySQL.port = getConfig().getString("MySQL.port");
-        API_MySQL.username = getConfig().getString("MySQL.username");
-        API_MySQL.password = getConfig().getString("MySQL.password");
-        API_MySQL.database = getConfig().getString("MySQL.database");
-
-        API_MySQL.connect();
-        if (!API_MySQL.isConnected())
-            return;
     }
 
     private void registerCommands() {
@@ -86,6 +74,18 @@ extends JavaPlugin {
         pm.registerEvents((Listener) new EventManager(), (Plugin) this);
     }
 
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
+    }
+    
     public void registerConfig() {
         ArrayList < String > temp = new ArrayList < > ();
 
@@ -122,9 +122,6 @@ extends JavaPlugin {
 
         this.messages.addDefault("spawn.telport-to-spawn", "%prefix%&aTeleporting...");
         this.messages.addDefault("spawn.spawn-set", "%prefix%&aSpawn set!");
-
-        this.messages.addDefault("fakt-signs.find", "%prefix%&6You find a fakt sign!");
-        this.messages.addDefault("fakt-signs.create", "%prefix%&aYou created a new fakt sign!");
         
         this.messages.addDefault("cmd.message.receive", "&aMessage from %sender%: &r%message%");
         this.messages.addDefault("cmd.message.send", "&aMessage send to %target%:%break%&r%message%");
@@ -172,6 +169,10 @@ extends JavaPlugin {
     public String getPrefix() {
         return this.prefix;
     }
+    
+    public static Economy getEconomy() {
+		return econ;
+	}
 
     public ConsoleCommandSender getConsole() {
         return this.console;
@@ -213,8 +214,8 @@ extends JavaPlugin {
     public String getErrorMessagePlayerNotFount(String executor, String target) {
     	return translateVars(messages.getString("error.player-not-found"), executor).replace("%target%", target);
     }
-    public String getErrorMessageNoPermission(String player) {
-    	return translateVars(messages.getString("error.no-permission"), player);
+    public String getErrorMessageNoPermission(String player, String permission) {
+    	return translateVars(messages.getString("error.no-permission"), player).replace("%permission%", permission);
     }
     public String getErrorMessageWrongSyntax(String player, String cmd, String permission) {
     	return translateVars(messages.getString("error.incorrect-syntax"), player, cmd, permission);

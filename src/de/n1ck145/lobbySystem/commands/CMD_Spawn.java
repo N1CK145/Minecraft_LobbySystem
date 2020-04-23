@@ -13,7 +13,7 @@ public class CMD_Spawn implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (!this.main.getConfig().getStringList("disable-spawn-command-worlds").contains(p.getWorld().getName())) {
-                if (p.hasPermission("lobby.cmd.spawn")) {
+                if (p.hasPermission("lobbySystem.cmd.spawn")) {
                     if (this.main.getLocations().contains("spawn")) {
                         p.teleport(this.main.getLocations().getLocation("spawn"));
                         p.sendMessage(this.main.translateVars(this.main.getMessages().getString("spawn.telport-to-spawn"), p.getName(), "/spawn", "lobby.cmd.spawn"));

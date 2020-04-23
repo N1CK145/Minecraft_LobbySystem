@@ -1,7 +1,6 @@
 package de.n1ck145.lobbySystem.listener;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -10,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,7 +22,6 @@ import org.bukkit.inventory.Inventory;
 
 import de.n1ck145.lobbySystem.GUI.GUI_Compass;
 import de.n1ck145.lobbySystem.main.Main;
-import de.n1ck145.lobbySystem.utils.API_MySQL;
 import de.n1ck145.lobbySystem.utils.FileManager;
 
 public class EventManager implements Listener {
@@ -178,33 +175,11 @@ public class EventManager implements Listener {
         }
     }
     @EventHandler
-    public void createFaktSign(SignChangeEvent e) {
-        if (this.main.translateVars(e.getLine(0), e.getPlayer().getName()).contains(this.main.getConfig().getString("fakt-signs-header")))
-            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.create"), e.getPlayer().getName()));
-    }
-    @EventHandler
-    public void faktSignFind(PlayerInteractEvent e) {
-        if (e.getAction() != Action.LEFT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_BLOCK)
-            return;
-        if (!(e.getClickedBlock().getState() instanceof Sign))
-            return;
-        Sign s = (Sign) e.getClickedBlock().getState();
-        if (this.main.translateVars(s.getLine(0), e.getPlayer().getName()).contains(this.main.getConfig().getString("fakt-signs-header")))
-            e.getPlayer().sendMessage(this.main.translateVars(this.messages.getString("fakt-signs.find"), e.getPlayer().getName()));
-    }
-
-    @EventHandler
     public void changeWeather(WeatherChangeEvent e) {
+    	if(!main.getConfig().getStringList("system-enable-worlds").contains(e.getWorld().getName()))
+    		return;
         if (this.main.getConfig().getBoolean("change-weather"))
             return;
         e.setCancelled(true);
-    }
-    @EventHandler
-    public void logLastOnline(PlayerQuitEvent e) {
-        if (API_MySQL.isConnected()) {
-            String uuid = e.getPlayer().getUniqueId().toString();
-
-            API_MySQL.update("UPDATE lobby_lastOnline SET value=NOW() WHERE UUID='" + uuid + "';");
-        }
     }
 }

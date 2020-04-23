@@ -10,12 +10,29 @@ commands:
     lobbyc:
         description: Configure the plugin
     build:
-        description: Allows you to build!
+        description: build [player]
     message:
         description: 
         aliases: [msg]
     warp:
-        description: warp <warp> Teleports you to warp
+        description: warp <warp>
     setwarp:
-        description: setwarp <warp> Creates new warp
-    coins:
+        description: setwarp <warp>
+
+permissions:
+    lobbySystem.*:
+        description: Gives all LobbySystem permissions
+        children:
+            lobbySystem.coins.*: true
+            lobbySystem.cmd.*: true
+    
+    lobbySystem.cmd.*:
+        description: Gives permissions to all LobbySystem commands
+        children:
+            lobbySystem.cmd.spawn: true
+            lobbySystem.cmd.message: true
+            lobbySystem.cmd.warp: true
+            lobbySystem.cmd.build: true
+            lobbySystem.cmd.build.other: true
+            lobbySystem.cmd.admin: true
+            lobbySystem.cmd.setwarp: true

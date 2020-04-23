@@ -21,7 +21,7 @@ public class CMD_Warp implements CommandExecutor{
 		String permission;
 		switch (cmd.getName().toLowerCase()) {
 		case "warp":
-			permission = "lobby.cmd.warp";
+			permission = "lobbySystem.cmd.warp";
 			
 			if(sender.hasPermission(permission)) {
 				if(args.length == 1) {
@@ -35,11 +35,11 @@ public class CMD_Warp implements CommandExecutor{
 				}else
 					p.sendMessage(main.getErrorMessageWrongSyntax(p.getName(), "/warp <warp>", permission));
 			}else
-				sender.sendMessage(main.getErrorMessageNoPermission(p.getName()));
+				sender.sendMessage(main.getErrorMessageNoPermission(p.getName(), permission));
 			break;
 			
 		case "setwarp":
-			permission = "lobby.cmd.setwarp";
+			permission = "lobbySystem.cmd.setwarp";
 			
 			if(sender.hasPermission(permission)) {
 				if(args.length == 1) {
@@ -52,7 +52,7 @@ public class CMD_Warp implements CommandExecutor{
 				}else
 					p.sendMessage(main.getErrorMessageWrongSyntax(p.getName(), "/warp <warp>", permission));
 			}else
-				sender.sendMessage(main.getErrorMessageNoPermission(p.getName()));
+				sender.sendMessage(main.getErrorMessageNoPermission(p.getName(), permission));
 			break;
 		}
 		return true;
