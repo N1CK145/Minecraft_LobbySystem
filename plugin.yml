@@ -1,5 +1,5 @@
 main: de.n1ck145.lobbySystem.main.Main
-version: 1.2.0
+version: 1.2.1
 name: LobbySystem
 author: N1CK145
 
@@ -23,7 +23,6 @@ permissions:
     lobbySystem.*:
         description: Gives all LobbySystem permissions
         children:
-            lobbySystem.coins.*: true
             lobbySystem.cmd.*: true
     
     lobbySystem.cmd.*:
