@@ -1,9 +1,10 @@
 # Minecraft LobbySystem
-v.1.2.0
+v.1.2.2
 
 by N1CK145
 ## Features
 * Lobby compass (Custom commands)
+  * /server command compatible
 * Lobby teleport (lobby)
 * Custom plugin messages (Editable in config)
 * Custom join and quit messages
@@ -34,14 +35,14 @@ by N1CK145
 ### General
 | Permission | Description |
 | ---------- | ----------- |
-| `lobby.cmd.spawn` | Allows to use command /spawn |
-| `lobby.cmd.message` | Allows to use command /message |
-| `lobby.cmd.warp` | Allow to use command /warp |
+| `lobbySystem.cmd.spawn` | Allows to use command /spawn |
+| `lobbySystem.cmd.message` | Allows to use command /message |
+| `lobbySystem.cmd.warp` | Allow to use command /warp |
 
 ### Admin
 | Permission | Description |
 | ---------- | ----------- |
-| `lobby.cmd.build` | Allows to set oneself to buildmode |
-| `lobby.cmd.build.other` | Allows to set others to buildmode |
-| `lobby.cmd.admin` | Allows to configure the plugin |
-| `lobby.cmd.setwarp` | Allows to use command /setwarp |
+| `lobbySystem.cmd.build` | Allows to set oneself to buildmode |
+| `lobbySystem.cmd.build.other` | Allows to set others to buildmode |
+| `lobbySystem.cmd.admin` | Allows to configure the plugin |
+| `lobbySystem.cmd.setwarp` | Allows to use command /setwarp |
