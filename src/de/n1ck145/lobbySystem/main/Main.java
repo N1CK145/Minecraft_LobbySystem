@@ -48,6 +48,8 @@ extends JavaPlugin {
         registerCommands();
         if(!setupEconomy())
         	console.sendMessage(prefix + "§cNo valid economy plugin found! Please import a Vault compatible economy plugin!");
+        else
+        	console.sendMessage(prefix + "§aVault was succsessfully set up!");
 
         this.item_compass = new ITEM_Compass(Material.getMaterial(this.fm_compass.getString("compass.material")));
         this.gui_compass = new GUI_Compass();
@@ -58,15 +60,19 @@ extends JavaPlugin {
 
     public void onDisable() {
         API_MySQL.disconnect();
+        this.console.sendMessage(prefix + "§4Plugin disabled");
     }
 
     private void registerCommands() {
-        getCommand("build").setExecutor(new CMD_Build());
+    	getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+    	getCommand("build").setExecutor(new CMD_Build());
         getCommand("spawn").setExecutor(new CMD_Spawn());
         getCommand("lobbyc").setExecutor(new CMD_LobbyC());
         getCommand("message").setExecutor(new CMD_Message());
         getCommand("warp").setExecutor(new CMD_Warp());
         getCommand("setwarp").setExecutor(new CMD_Warp());
+        
     }
 
     private void registerEvents() {

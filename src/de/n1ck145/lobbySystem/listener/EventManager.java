@@ -20,6 +20,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.Inventory;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+
 import de.n1ck145.lobbySystem.GUI.GUI_Compass;
 import de.n1ck145.lobbySystem.main.Main;
 import de.n1ck145.lobbySystem.utils.FileManager;
@@ -163,13 +166,22 @@ public class EventManager implements Listener {
         if (!e.getInventory().getName().equals(this.main.translateVars(this.main.getFileManagerCompass().getString("gui.name"))))
             return;
         for (String s: this.compass.getConfigurationSection("gui.items").getKeys(false)) {
+        	Player p = (Player)e.getWhoClicked();
             String path = "gui.items." + s + ".";
             int slot = this.compass.getInt(String.valueOf(path) + "slot");
             if (e.getSlot() == slot) {
+            	String command = compass.getString(path + "command");
                 if (this.compass.getBoolean(String.valueOf(path) + "command-execute-by-player")) {
-                    Bukkit.dispatchCommand((CommandSender) e.getWhoClicked(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getName()));
+                	p.sendMessage(command.split(" ")[1]);
+                	if(command.toLowerCase().startsWith("server ")) {
+                		ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                		out.writeUTF("Connect");
+                		out.writeUTF(command.split(" ")[1]);
+                		p.sendPluginMessage(main, "BungeeCord", out.toByteArray());
+                	}else
+                		Bukkit.dispatchCommand((CommandSender) p, command);
                 } else
-                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), this.main.translateVars(this.compass.getString(String.valueOf(path) + "command"), e.getWhoClicked().getName()));
+                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), command);
                 return;
             }
         }

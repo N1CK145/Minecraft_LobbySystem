@@ -28,13 +28,14 @@ public class API_MySQL {
     }
 
     public static void disconnect() {
-        if (isConnected())
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Bukkit.getConsoleSender().sendMessage(String.valueOf(Main.getMain().getPrefix()) + "§4MySQL disconnet error!");
-            }
+        if (isConnected()) {
+        	try {
+        		con.close();
+        	} catch (SQLException e) {
+        		e.printStackTrace();
+        		Bukkit.getConsoleSender().sendMessage(String.valueOf(Main.getMain().getPrefix()) + "§4MySQL disconnect error!");
+        	}        	
+        }
     }
 
     public static boolean isConnected() {
