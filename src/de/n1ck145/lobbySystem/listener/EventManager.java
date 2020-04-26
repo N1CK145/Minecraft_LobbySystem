@@ -172,7 +172,6 @@ public class EventManager implements Listener {
             if (e.getSlot() == slot) {
             	String command = compass.getString(path + "command");
                 if (this.compass.getBoolean(String.valueOf(path) + "command-execute-by-player")) {
-                	p.sendMessage(command.split(" ")[1]);
                 	if(command.toLowerCase().startsWith("server ")) {
                 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 		out.writeUTF("Connect");
